@@ -4,16 +4,16 @@ namespace StudentDatabaseProject
     internal class StudentHandler
     {
         StudentDbContext dbCtx = new StudentDbContext();
-        MenuSystem menuSystem;
+        MenuSystem MenuSystem;
 
         internal StudentHandler()
         {
-            menuSystem = new MenuSystem(this);
+            MenuSystem = new MenuSystem(this);
         }
 
         internal void Start()
         {
-            menuSystem.StartStudentProgram();
+            MenuSystem.StartStudentProgram();
         }
 
         internal void NewStudent(string firstName, string lastName, string city)
@@ -24,7 +24,7 @@ namespace StudentDatabaseProject
 
         internal Student? GetStudentWithStudentId(int studentID)
         {
-            var student = dbCtx.Students.FirstOrDefault(s => s.StudentId == studentID);
+            var student = dbCtx.Students.First(s => s.StudentId == studentID);
             return student;
         }
 

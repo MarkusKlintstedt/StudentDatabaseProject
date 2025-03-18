@@ -2,11 +2,11 @@
 {
     internal class MenuSystem
     {
-        StudentHandler handler;
+        StudentHandler StudentHandler;
 
-        internal MenuSystem(StudentHandler sHandler)
+        internal MenuSystem(StudentHandler studentHandler)
         {
-            handler = sHandler;
+            StudentHandler = studentHandler;
         }
 
         internal void StartStudentProgram()
@@ -61,7 +61,7 @@
             String lastName = GetUserInput();
             Console.Write("\n Ange hemort: ");
             String city = GetUserInput();
-            handler.NewStudent(firstName, lastName, city);
+            StudentHandler.NewStudent(firstName, lastName, city);
             Console.WriteLine("\n Student registrerad i databasen");
         }
 
@@ -94,9 +94,10 @@
             FindStudentWithStudentId();
         }
 
+        // Returns false if search is too wide to obtain one unique student 
         private bool ManageStudentSearchBeforeUpdate(String firstName, String lastName, String city)
         {
-            List<Student> students = handler.SearchStudentDb(firstName, lastName, city);
+            List<Student> students = StudentHandler.SearchStudentDb(firstName, lastName, city);
             if (students.Count > 1)
             {
                 PrintStudentList(students);
@@ -126,7 +127,7 @@
             Console.Write("\n Ange Student-ID: ");
             if (int.TryParse(Console.ReadLine(), out int studentId))
             {
-                Student? student = handler.GetStudentWithStudentId(studentId);
+                Student? student = StudentHandler.GetStudentWithStudentId(studentId);
                 if (student == null)
                 {
                     Console.WriteLine(" Student-ID saknas i databasen"); ;
@@ -147,11 +148,11 @@
             Console.WriteLine("\n Student i dabasen som uppdateras");
             PrintStudentEntry(student);
             Console.Write($"\n Nuvarande förnamn är {student.FirstName}. Ange nytt förnamn (eller tryck enter för att behålla): ");
-            handler.UpdateFirstName(student, Console.ReadLine());
+            StudentHandler.UpdateFirstName(student, Console.ReadLine());
             Console.Write($"\n Nuvarande förnamn är {student.LastName}. Ange nytt efternamn (eller tryck enter för att behålla): ");
-            handler.UpdateLastName(student, Console.ReadLine());
+            StudentHandler.UpdateLastName(student, Console.ReadLine());
             Console.Write($"\n Nuvarande hemort är {student.City}. Ange ny hemort (eller tryck enter för att behålla): ");
-            handler.UpdateCity(student, Console.ReadLine());
+            StudentHandler.UpdateCity(student, Console.ReadLine());
             Console.WriteLine("\n Sparad information om studenten i databasen:");
             PrintStudentEntry(student);
         }
@@ -165,7 +166,7 @@
         {
             Console.Clear();
             Console.WriteLine("\n       *Registrerade studenter*\n");
-            PrintStudentList(handler.GetAllStudentsInDb());
+            PrintStudentList(StudentHandler.GetAllStudentsInDb());
         }
     }
 }
